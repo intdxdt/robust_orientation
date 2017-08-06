@@ -22,14 +22,14 @@ pub fn orientation_2d(a: &[f64], b: &[f64], c: &[f64]) -> f64 {
     let r = (a[0] - c[0]) * (b[1] - c[1]);
     let det = l - r;
     let s;
-    if l > 0 {
-        if r <= 0 {
+    if l > 0.0 {
+        if r <= 0.0 {
             return det;
         } else {
             s = l + r;
         }
-    } else if l < 0 {
-        if r >= 0 {
+    } else if l < 0.0 {
+        if r >= 0.0 {
             return det;
         } else {
             s = -(l + r);
@@ -79,52 +79,52 @@ pub fn orientation_3d(a: &[f64], b: &[f64], c: &[f64], d: &[f64]) -> f64 {
 ///orientation 2d exact
 fn orientation3_exact(m0: &[f64], m1: &[f64], m2: &[f64]) -> f64 {
     let p = rsum(
-        rsum(tprod(m1[1], m2[0]), tprod(-m2[1], m1[0])),
-        rsum(tprod(m0[1], m1[0]), tprod(-m1[1], m0[0])),
+        &rsum(&tprod(m1[1], m2[0]), &tprod(-m2[1], m1[0])),
+        &rsum(&tprod(m0[1], m1[0]), &tprod(-m1[1], m0[0])),
     );
-    let n = rsum(tprod(m0[1], m2[0]), tprod(-m2[1], m0[0]));
-    let d = rdiff(p, n);
-    d[len(d) - 1]
+    let n = rsum(&tprod(m0[1], m2[0]), &tprod(-m2[1], m0[0]));
+    let d = rdiff(&p, &n);
+    d[d.len() - 1]
 }
 
 ///orientation 3d exact
 fn orientation4_exact(m0: &[f64], m1: &[f64], m2: &[f64], m3: &[f64]) -> f64 {
     let p = rsum(
-        rsum(
-            rscale(rsum(tprod(m2[1], m3[0]), tprod(-m3[1], m2[0])), m1[2]),
-            rsum(
-                rscale(rsum(tprod(m1[1], m3[0]), tprod(-m3[1], m1[0])), -m2[2]),
-                rscale(rsum(tprod(m1[1], m2[0]), tprod(-m2[1], m1[0])), m3[2]),
+        &rsum(
+            &rscale(&rsum(&tprod(m2[1], m3[0]), &tprod(-m3[1], m2[0])), m1[2]),
+            &rsum(
+                &rscale(&rsum(&tprod(m1[1], m3[0]), &tprod(-m3[1], m1[0])), -m2[2]),
+                &rscale(&rsum(&tprod(m1[1], m2[0]), &tprod(-m2[1], m1[0])), m3[2]),
             ),
         ),
-        rsum(
-            rscale(rsum(tprod(m1[1], m3[0]), tprod(-m3[1], m1[0])), m0[2]),
-            rsum(
-                rscale(rsum(tprod(m0[1], m3[0]), tprod(-m3[1], m0[0])), -m1[2]),
-                rscale(rsum(tprod(m0[1], m1[0]), tprod(-m1[1], m0[0])), m3[2]),
+        &rsum(
+            &rscale(&rsum(&tprod(m1[1], m3[0]), &tprod(-m3[1], m1[0])), m0[2]),
+            &rsum(
+                &rscale(&rsum(&tprod(m0[1], m3[0]), &tprod(-m3[1], m0[0])), -m1[2]),
+                &rscale(&rsum(&tprod(m0[1], m1[0]), &tprod(-m1[1], m0[0])), m3[2]),
             ),
         ),
     );
 
     let n = rsum(
-        rsum(
-            rscale(rsum(tprod(m2[1], m3[0]), tprod(-m3[1], m2[0])), m0[2]),
-            rsum(
-                rscale(rsum(tprod(m0[1], m3[0]), tprod(-m3[1], m0[0])), -m2[2]),
-                rscale(rsum(tprod(m0[1], m2[0]), tprod(-m2[1], m0[0])), m3[2]),
+        &rsum(
+            &rscale(&rsum(&tprod(m2[1], m3[0]), &tprod(-m3[1], m2[0])), m0[2]),
+            &rsum(
+                &rscale(&rsum(&tprod(m0[1], m3[0]), &tprod(-m3[1], m0[0])), -m2[2]),
+                &rscale(&rsum(&tprod(m0[1], m2[0]), &tprod(-m2[1], m0[0])), m3[2]),
             ),
         ),
-        rsum(
-            rscale(rsum(tprod(m1[1], m2[0]), tprod(-m2[1], m1[0])), m0[2]),
-            rsum(
-                rscale(rsum(tprod(m0[1], m2[0]), tprod(-m2[1], m0[0])), -m1[2]),
-                rscale(rsum(tprod(m0[1], m1[0]), tprod(-m1[1], m0[0])), m2[2]),
+        &rsum(
+            &rscale(&rsum(&tprod(m1[1], m2[0]), &tprod(-m2[1], m1[0])), m0[2]),
+            &rsum(
+                &rscale(&rsum(&tprod(m0[1], m2[0]), &tprod(-m2[1], m0[0])), -m1[2]),
+                &rscale(&rsum(&tprod(m0[1], m1[0]), &tprod(-m1[1], m0[0])), m2[2]),
             ),
         ),
     );
-    let d = rdiff(p, n);
+    let d = rdiff(&p, &n);
 
-    d[len(d) - 1]
+    d[d.len() - 1]
 }
 
 #[cfg(test)]
