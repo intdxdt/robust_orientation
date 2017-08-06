@@ -129,9 +129,30 @@ fn orientation4_exact(m0: &[f64], m1: &[f64], m2: &[f64], m3: &[f64]) -> f64 {
 
 #[cfg(test)]
 mod robust_orientation {
+    use super::{orientation_2d, orientation_3d};
+
     #[test]
-    fn test_ro() {
-        assert!(true);
+    fn test_ro_2d() {
+        assert!(orientation_2d(&vec!(0.1, 0.1), &vec!(0.1, 0.1), &vec!(0.3, 0.7)) == 0.);
+        assert!(orientation_2d(&vec!(0., 0.), &vec!(-1e-64, 0.), &vec!(0., 1.)) > 0.);
+        assert!(orientation_2d(&vec!(0., 0.), &vec!(1e-64, 1e-64), &vec!(1., 1.)) == 0.);
+        assert!(orientation_2d(&vec!(0., 0.), &vec!(1e-64, 0.), &vec!(0., 1.)) < 0.);
+
+        let mut x = 1e-64;
+        for _ in 0..200 {
+            assert!(orientation_2d(&vec!(-x, 0.), &vec!(0., 1.), &vec!(x, 0.)) > 0.);
+            assert!(orientation_2d(&vec!(-x, 0.), &vec!(0., 0.), &vec!(x, 0.)) == 0.);
+            assert!(orientation_2d(&vec!(-x, 0.), &vec!(0., -1.), &vec!(x, 0.)) < 0.);
+            assert!(orientation_2d(&vec!(0., 1.), &vec!(0., 0.), &vec!(x, x)) < 0.);
+            x *= 10.
+        }
+    }
+
+    #[test]
+    fn test_ro_3d() {
+        assert!(orientation_3d(&vec!(0., 0., 0.), &vec!(1., 0., 0.), &vec!(0., 1., 0.), &vec!(0., 0., 1.)) < 0.);
+        assert!(orientation_3d(&vec!(0., 0., 0.), &vec!(1., 0., 0.), &vec!(0., 0., 1.), &vec!(0., 1., 0.)) > 0.);
+        assert!(orientation_3d(&vec!(0., 0., 0.), &vec!(1e-64, 0., 0.), &vec!(0., 0., 1.), &vec!(0., 1e64, 0.)) > 0.);
     }
 }
 
