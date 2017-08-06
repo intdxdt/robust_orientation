@@ -1,3 +1,13 @@
+extern crate robust_sum;
+extern crate robust_scale;
+extern crate robust_subtract;
+extern crate two_product;
+
+use robust_sum::robust_sum as rsum;
+use robust_subtract::robust_subtract as rdiff;
+use robust_scale::robust_scale as rscale;
+use two_product::two_product as tprod;
+
 const EPSILON: f64 = 1.1102230246251565e-16;
 const ERRBOUND3: f64 = (3.0 + 16.0 * EPSILON) * EPSILON;
 const ERRBOUND4: f64 = (7.0 + 56.0 * EPSILON) * EPSILON;
@@ -116,3 +126,12 @@ fn orientation4_exact(m0: &[f64], m1: &[f64], m2: &[f64], m3: &[f64]) -> f64 {
 
     d[len(d) - 1]
 }
+
+#[cfg(test)]
+mod robust_orientation {
+    #[test]
+    fn test_ro() {
+        assert!(true);
+    }
+}
+

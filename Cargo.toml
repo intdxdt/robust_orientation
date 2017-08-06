@@ -4,3 +4,8 @@ version = "0.1.0"
 authors = ["Titus Tienaah <titus.intdxdt@gmail.com>"]
 
 [dependencies]
+robust_subtract = { git = "https://github.com/intdxdt/robust_subtract", branch = "master" }
+robust_sum = { git = "https://github.com/intdxdt/robust_sum", branch = "master" }
+robust_scale = { git = "https://github.com/intdxdt/robust_scale", branch = "master" }
+two_product = { git = "https://github.com/intdxdt/two_product", branch = "master" }
+
