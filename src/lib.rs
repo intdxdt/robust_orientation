@@ -4,7 +4,7 @@ extern crate robust_subtract;
 extern crate two_product;
 
 use robust_sum::robust_sum as rsum;
-use robust_subtract::robust_subtract as rdiff;
+use robust_subtract::subtract as rdiff;
 use robust_scale::robust_scale as rscale;
 use two_product::two_product as tprod;
 
