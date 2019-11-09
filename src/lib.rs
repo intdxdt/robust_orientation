@@ -66,7 +66,8 @@ pub fn orientation_3d(a: &[f64], b: &[f64], c: &[f64], d: &[f64]) -> f64 {
     let bdxady = bdx * ady;
 
     let det = adz * (bdxcdy - cdxbdy) + bdz * (cdxady - adxcdy) + cdz * (adxbdy - bdxady);
-    let permanent = (bdxcdy.abs() + cdxbdy.abs()) * adz.abs() + (cdxady.abs() + adxcdy.abs()) * bdz.abs() +
+    let permanent = (bdxcdy.abs() + cdxbdy.abs()) * adz.abs() +
+        (cdxady.abs() + adxcdy.abs()) * bdz.abs() +
         (adxbdy.abs() + bdxady.abs()) * cdz.abs();
 
     let tol = ERRBOUND4 * permanent;
@@ -133,17 +134,17 @@ mod robust_orientation {
 
     #[test]
     fn test_ro_2d() {
-        assert!(orientation_2d(&vec!(0.1, 0.1), &vec!(0.1, 0.1), &vec!(0.3, 0.7)) == 0.);
-        assert!(orientation_2d(&vec!(0., 0.), &vec!(-1e-64, 0.), &vec!(0., 1.)) > 0.);
-        assert!(orientation_2d(&vec!(0., 0.), &vec!(1e-64, 1e-64), &vec!(1., 1.)) == 0.);
-        assert!(orientation_2d(&vec!(0., 0.), &vec!(1e-64, 0.), &vec!(0., 1.)) < 0.);
+        assert_eq!(orientation_2d(&[0.1, 0.1], &[0.1, 0.1], &[0.3, 0.7]), 0.);
+        assert!(orientation_2d(&[0., 0.], &[-1e-64, 0.], &[0., 1.]) > 0.);
+        assert_eq!(orientation_2d(&[0., 0.], &[1e-64, 1e-64], &[1., 1.]), 0.);
+        assert!(orientation_2d(&[0., 0.], &[1e-64, 0.], &[0., 1.]) < 0.);
 
         let mut x = 1e-64;
         for _ in 0..200 {
-            assert!(orientation_2d(&vec!(-x, 0.), &vec!(0., 1.), &vec!(x, 0.)) > 0.);
-            assert!(orientation_2d(&vec!(-x, 0.), &vec!(0., 0.), &vec!(x, 0.)) == 0.);
-            assert!(orientation_2d(&vec!(-x, 0.), &vec!(0., -1.), &vec!(x, 0.)) < 0.);
-            assert!(orientation_2d(&vec!(0., 1.), &vec!(0., 0.), &vec!(x, x)) < 0.);
+            assert!(orientation_2d(&[-x, 0.], &[0., 1.], &[x, 0.]) > 0.);
+            assert_eq!(orientation_2d(&[-x, 0.], &[0., 0.], &[x, 0.]), 0.);
+            assert!(orientation_2d(&[-x, 0.], &[0., -1.], &[x, 0.]) < 0.);
+            assert!(orientation_2d(&[0., 1.], &[0., 0.], &[x, x]) < 0.);
             x *= 10.
         }
     }
